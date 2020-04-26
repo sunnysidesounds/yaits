@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
      `first_name` varchar(125) NULL,
      `last_name` varchar(125) NULL,
      `email` varchar(255) NULL,
+     `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
      PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
