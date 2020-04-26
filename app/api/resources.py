@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 from app.utils import response_json, make_request
 from app import constants
-
 from .models import Project, Issue, User
 from .schemas import issue_schema, issues_schema
 
@@ -20,7 +19,7 @@ class IssuesResource(Resource):
         if data:
             return response_json(True, data, None)
         else:
-            return response_json(True, data, constants.TEXT_DOES_NOT_EXISTS)
+            return response_json(True, data, constants.NO_DATA)
 
     def post(self):
         return "STUBBED POST"
