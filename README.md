@@ -37,7 +37,15 @@ These are the current available endpoints for this service:
 curl --header "Content-Type: application/json" \
     --request POST \
     --data '{"name":"This is a test project issue", "description":"This is a description"}' \
-    http://localhost:5000/api/project`
+    http://localhost:5000/api/project
+```
+
+- ***UPDATE a Project***
+```
+curl --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"description":"This is a description"}' \
+    http://localhost:5000/api/project?id=1
 ```
 
 - ***DELETE new Project**
@@ -65,6 +73,14 @@ curl --header "Content-Type: application/json" \
     http://localhost:5000/api/issue
 ```
 
+- ***UPDATE a issue***
+```
+curl --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"project_id":1,"name":"This is a test insert issue", "priority_level": 2, "assigned_to_user_id": 1, "created_by_user_id": 1, "status": "OPEN"}' \
+    http://localhost:5000/api/issue?id=3
+```
+
 - ***DELETE issue by ID***
     - `curl -X DELETE http://localhost:5000/api/issue?id=9`
 
@@ -82,6 +98,14 @@ curl --header "Content-Type: application/json" \
     --request POST \
     --data '{"username":"tester", "first_name":"Jason", "last_name":"Alexander", "email": "jasonralexander@gmail.com"}' \
     http://localhost:5000/api/user
+```
+
+- ***UPDATE a user***
+```
+curl --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"username":"tester", "first_name":"Jason", "last_name":"Alexander", "email": "jasonralexander@gmail.com"}' \
+    http://localhost:5000/api/user?id=1
 ```
 
 

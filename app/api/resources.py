@@ -34,27 +34,40 @@ class User(Resource):
             return response_json(True, data, constants.NO_USER_ID)
 
     def post(self):
+        args = parser.parse_args()
+        user_id = args['id']
         data = request.get_json(force=True)
-        if "username" not in data:
-            return response_json(True, data, constants.NO_USERNAME)
-        if "first_name" not in data:
-            return response_json(True, data, constants.NO_FIRST_NAME)
-        if "last_name" not in data:
-            return response_json(True, data, constants.NO_LAST_NAME)
-        if "email" not in data:
-            return response_json(True, data, constants.NO_EMAIL)
+        if user_id:
+            query = PROJECT_QUERY + "WHERE id = {userId}".format(userId=user_id)
+            user_json = QueryToResponseJSON(query).get_one()['response']
+            user_model = UserModel()
+            user_model.update(user_id, {"username": data['username'] if 'username' in data else user_json['username'],
+                                        "first_name": data['first_name'] if 'first_name' in data else user_json['first_name'],
+                                        "last_name": data['last_name'] if 'last_name' in data else user_json['last_name'],
+                                        "email": data['email'] if 'email' in data else user_json['email']})
 
-        if not self.is_username_exist(data['username']):
-            user_model = UserModel(
-                username=data['username'],
-                first_name=data['first_name'],
-                last_name=data['last_name'],
-                email=data['email'],
-            )
-            user_model.save()
             return response_json(True, data, None)
         else:
-            return response_json(True, data, constants.NO_USERNAME)
+            if "username" not in data:
+                return response_json(True, data, constants.NO_USERNAME)
+            if "first_name" not in data:
+                return response_json(True, data, constants.NO_FIRST_NAME)
+            if "last_name" not in data:
+                return response_json(True, data, constants.NO_LAST_NAME)
+            if "email" not in data:
+                return response_json(True, data, constants.NO_EMAIL)
+
+            if not self.is_username_exist(data['username']):
+                user_model = UserModel(
+                    username=data['username'],
+                    first_name=data['first_name'],
+                    last_name=data['last_name'],
+                    email=data['email'],
+                )
+                user_model.save()
+                return response_json(True, data, None)
+            else:
+                return response_json(True, data, constants.NO_USERNAME)
 
     def is_username_exist(self, username):
         query = USER_QUERY + "WHERE username = '{username}'".format(username=username)
@@ -72,24 +85,34 @@ class Project(Resource):
         project_id = args['id']
         data = None
         if project_id:
-            # TODO: We need to parameterize the values in this query
             query = PROJECT_QUERY + "WHERE id = {projectId}".format(projectId=project_id)
             return QueryToResponseJSON(query).get_one()
         else:
             return response_json(True, data, constants.NO_ISSUE_ID)
 
     def post(self):
+        args = parser.parse_args()
+        project_id = args['id']
         data = request.get_json(force=True)
-        if "name" not in data:
-            return response_json(True, data, constants.NO_PROJECT_NAME)
-        if "description" not in data:
-            data['description'] = constants.DEFAULT_DESCRIPTION
+        # Update record
+        if project_id:
+            query = PROJECT_QUERY + "WHERE id = {projectId}".format(projectId=project_id)
+            project_json = QueryToResponseJSON(query).get_one()['response']
+            project_model = ProjectModel()
+            project_model.update(project_id, {"name": data['name'] if 'name' in data else project_json['name'],
+                                              "description": data['description'] if 'description' in data else project_json['description']})
+        # New record
+        else:
+            if "name" not in data:
+                return response_json(True, data, constants.NO_PROJECT_NAME)
+            if "description" not in data:
+                data['description'] = constants.DEFAULT_DESCRIPTION
 
-        project_model = ProjectModel(
-            name=data['name'],
-            description=data['description'],
-        )
-        project_model.save()
+            project_model = ProjectModel(
+                name=data['name'],
+                description=data['description'],
+            )
+            project_model.save()
 
         return response_json(True, data, None)
 
@@ -116,43 +139,57 @@ class Issue(Resource):
             return response_json(True, data, constants.NO_ISSUE_ID)
 
     def post(self):
+        args = parser.parse_args()
+        issue_id = args['id']
         data = request.get_json(force=True)
+        # Update record
+        if issue_id:
+            query = ISSUES_QUERY_ONE + "WHERE i.id = {issueId}".format(issueId=issue_id)
+            issue_json = QueryToResponseJSON(query).get_one()['response']
+            issue_model = IssueModel()
+            issue_model.update(issue_id, {"project_id": data['project_id'] if 'project_id' in data else issue_json['project_id'],
+                                         "name": data['name'] if 'name' in data else issue_json['name'],
+                                         "description": data['description'] if 'description' in data else issue_json['description'],
+                                          "priority_level": data['priority_level'] if 'priority_level' in data else issue_json['priority_level'],
+                                          "assigned_to_user_id": data['assigned_to_user_id'] if 'assigned_to_user_id' in data else issue_json['assigned_to_user_id'],
+                                          "created_by_user_id": data['created_by_user_id'] if 'created_by_user_id' in data else issue_json['created_by_user_id'],
+                                          "status": data['status'] if 'status' in data else issue_json['status']})
+       # New record
+        else:
+            if "project_id" not in data:
+                return response_json(True, data, constants.NO_PROJECT_ID)
 
-        # required
-        if "project_id" not in data:
-            return response_json(True, data, constants.NO_PROJECT_ID)
+            if "name" not in data:
+                return response_json(True, data, constants.NO_ISSUE_NAME)
 
-        if "name" not in data:
-            return response_json(True, data, constants.NO_ISSUE_NAME)
+            if "created_by_user_id" not in data:
+                return response_json(True, data, constants.NO_CREATED_BY_USER_ID)
 
-        if "created_by_user_id" not in data:
-            return response_json(True, data, constants.NO_CREATED_BY_USER_ID)
+            if "assigned_to_user_id" not in data:
+                data['assigned_to_user_id'] = data['created_by_user_id']
 
-        if "assigned_to_user_id" not in data:
-            data['assigned_to_user_id'] = data['created_by_user_id']
+            # Set default is not provided
+            if "description" not in data:
+                data['description'] = constants.DEFAULT_DESCRIPTION
 
-        # Set default is not provided
-        if "description" not in data:
-            data['description'] = constants.DEFAULT_DESCRIPTION
+            if "priority_level" not in data:
+                data['priority_level'] = 1
 
-        if "priority_level" not in data:
-            data['priority_level'] = 1
+            if "status" not in data:
+                data['status'] = "OPEN"
 
-        if "status" not in data:
-            data['status'] = "OPEN"
+            if Project.is_project_exist(data['project_id']):
 
-        if Project.is_project_exist(data['project_id']):
-
-            issue_model = IssueModel(
-                project_id=data['project_id'],
-                name=data['name'],
-                description=data['description'],
-                priority_level=data['priority_level'],
-                assigned_to_user_id=data['assigned_to_user_id'],
-                created_by_user_id=data['created_by_user_id'],
-                status=data['status'],
-            )
-            issue_model.save()
+                issue_model = IssueModel(
+                    project_id=data['project_id'],
+                    name=data['name'],
+                    description=data['description'],
+                    priority_level=data['priority_level'],
+                    assigned_to_user_id=data['assigned_to_user_id'],
+                    created_by_user_id=data['created_by_user_id'],
+                    status=data['status'],
+                )
+                issue_model.save()
 
         return response_json(True, data, None)
 

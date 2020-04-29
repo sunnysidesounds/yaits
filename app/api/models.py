@@ -20,6 +20,11 @@ class ProjectModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update(self, project_id, model):
+        project = self.query.filter_by(id=project_id).first()
+        project.name = model['name']
+        project.description = model['description']
+        db.session.commit()
 
 class UserModel(db.Model):
     """
@@ -38,6 +43,14 @@ class UserModel(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def update(self, user_id, model):
+        user = self.query.filter_by(id=user_id).first()
+        user.username = model['username']
+        user.first_name = model['first_name']
+        user.last_name = model['last_name']
+        user.email = model['email']
         db.session.commit()
 
 
@@ -69,4 +82,15 @@ class IssueModel(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def update(self, issue_id, model):
+        issue = self.query.filter_by(id=issue_id).first()
+        issue.project_id = model['project_id']
+        issue.name = model['name']
+        issue.description = model['description']
+        issue.priority_level = model['priority_level']
+        issue.assigned_to_user_id = model['assigned_to_user_id']
+        issue.created_by_user_id = model['created_by_user_id']
+        issue.status = model['status']
         db.session.commit()
