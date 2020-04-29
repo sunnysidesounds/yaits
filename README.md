@@ -26,13 +26,13 @@ These are the current available endpoints for this service:
 
 #### PROJECT ENDPOINTS
 
-***GET all projects***
-`curl -X GET 'http://localhost:5000/api/projects`
+- ***GET all projects***
+    - `curl -X GET 'http://localhost:5000/api/projects`
 
-***GET project by ID***
-`curl -X GET 'http://localhost:5000/api/project?id=3`
+- ***GET project by ID***
+    - `curl -X GET 'http://localhost:5000/api/project?id=3`
 
-***POST new Project**
+- ***POST new Project**
 ```
 curl --header "Content-Type: application/json" \
     --request POST \
@@ -40,18 +40,18 @@ curl --header "Content-Type: application/json" \
     http://localhost:5000/api/project`
 ```
 
-***DELETE new Project**
-- TODO
+- ***DELETE new Project**
+    - TODO
 
 ## ISSUE ENDPOINTS
 
-***GET all Issues***
-`curl -X GET 'http://localhost:5000/api/issues`
+- ***GET all Issues***
+    - `curl -X GET 'http://localhost:5000/api/issues`
 
-***SEARCH for Issues***
-- `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D'`
-- `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1'`
-- `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1&status=OPEN'`
+- ***SEARCH for Issues***
+    - `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D'`
+    - `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1'`
+    - `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1&status=OPEN'`
 
 
 - ***GET Issue by ID***
@@ -65,18 +65,18 @@ curl --header "Content-Type: application/json" \
     http://localhost:5000/api/issue
 ```
 
-- ***Delete issue by ID***
+- ***DELETE issue by ID***
     - `curl -X DELETE http://localhost:5000/api/issue?id=9`
 
 ## USER ENDPOINTS
 
-***GET all users***
-`curl -X GET 'http://localhost:5000/api/users'`
+- ***GET all users***
+    - `curl -X GET 'http://localhost:5000/api/users'`
 
-***GET user by ID***
-`curl -X GET 'http://localhost:5000/api/user?id=1'`
+- ***GET user by ID***
+    - `curl -X GET 'http://localhost:5000/api/user?id=1'`
 
-***POST a new user***
+- ***POST a new user***
 ```
 curl --header "Content-Type: application/json" \
     --request POST \
