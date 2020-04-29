@@ -6,7 +6,7 @@ from .models import StatusType, Issue
 class IssuesSchema(marshmallow.Schema):
     status = EnumField(StatusType, by_value=True)
     """
-    This class represents the wallet schema.
+    This class represents the issues schema.
     """
     class Meta:
         model = Issue

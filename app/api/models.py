@@ -2,7 +2,7 @@ import enum
 from app.db import db
 
 
-class Project(db.Model):
+class ProjectModel(db.Model):
     """
     This class represents the projects table.
     """
@@ -21,7 +21,7 @@ class Project(db.Model):
         db.session.commit()
 
 
-class User(db.Model):
+class UserModel(db.Model):
     """
     This class represents the users table.
     """
@@ -49,9 +49,9 @@ class StatusType(enum.Enum):
     CLOSED = "CLOSED"
 
 
-class Issue(db.Model):
+class IssueModel(db.Model):
     """
-   This class represents the users table.
+   This class represents the issues table.
    """
     __tablename__ = 'issues'
     id = db.Column(db.Integer, primary_key=True)
