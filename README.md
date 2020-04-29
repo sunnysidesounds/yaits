@@ -21,10 +21,10 @@ To setup this service, please follow these steps.
 6. Once up and running visit any of the endpoint urls in the ***ENDPOINTS*** section.
 
 
-### AVAILABLE ENDPOINTS:
+## AVAILABLE ENDPOINTS:
 These are the current available endpoints for this service:
 
-#### PROJECT ENDPOINTS
+##### PROJECT ENDPOINTS
 
 - ***GET all projects***
     - `curl -X GET 'http://localhost:5000/api/projects`
@@ -32,7 +32,7 @@ These are the current available endpoints for this service:
 - ***GET project by ID***
     - `curl -X GET 'http://localhost:5000/api/project?id=3`
 
-- ***POST new Project**
+- ***POST new Project***
 ```
 curl --header "Content-Type: application/json" \
     --request POST \
@@ -43,7 +43,7 @@ curl --header "Content-Type: application/json" \
 - ***DELETE new Project**
     - TODO
 
-## ISSUE ENDPOINTS
+##### ISSUE ENDPOINTS
 
 - ***GET all Issues***
     - `curl -X GET 'http://localhost:5000/api/issues`
@@ -68,7 +68,7 @@ curl --header "Content-Type: application/json" \
 - ***DELETE issue by ID***
     - `curl -X DELETE http://localhost:5000/api/issue?id=9`
 
-## USER ENDPOINTS
+##### USER ENDPOINTS
 
 - ***GET all users***
     - `curl -X GET 'http://localhost:5000/api/users'`
