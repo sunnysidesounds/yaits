@@ -49,16 +49,15 @@ curl --header "Content-Type: application/json" \
 `curl -X GET 'http://localhost:5000/api/issues`
 
 ***SEARCH for Issues***
-```
-curl -X GET 'http://localhost:5000/api/search/issues?like_name=D'`
-curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1'
-curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1&status=OPEN'
-```
+- `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D'`
+- `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1'`
+- `curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1&status=OPEN'`
 
-***GET Issue by ID***
-`curl -X GET 'http://localhost:5000/api/issue?id=3'`
 
-***POST new issue***
+- ***GET Issue by ID***
+    - `curl -X GET 'http://localhost:5000/api/issue?id=3'`
+
+- ***POST new issue***
 ```
 curl --header "Content-Type: application/json" \
     --request POST \
@@ -66,8 +65,8 @@ curl --header "Content-Type: application/json" \
     http://localhost:5000/api/issue
 ```
 
-***Delete issue by ID***
-`curl -X DELETE http://localhost:5000/api/issue?id=9`
+- ***Delete issue by ID***
+    - `curl -X DELETE http://localhost:5000/api/issue?id=9`
 
 ## USER ENDPOINTS
 
