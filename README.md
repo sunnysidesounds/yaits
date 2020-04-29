@@ -1,65 +1,89 @@
 # Yaits Service
  Issue tracking service for Unity Technologies
 
+## OVERVIEW
 
- ## SETUP
+### Technical Details:
+- Flask Python Web Service: https://flask.palletsprojects.com/en/1.1.x/
+- MYSQL 8.0.19
+- Python 3.8
+- Docker 2.2.0.5
 
 
- ### RUNNING
+## SETUP
+To setup this service, please follow these steps.
 
- ### ENDPOINTS:
+1. Download and install Docker Desktop: https://www.docker.com/products/docker-desktop
+2. Pull down from git or unzip the service source code.
+3. Get to the root directory of the service `cd /path-to-project/yaits/`
+4. Build the service: `docker-compose build --no-cache`
+5. Launch the service and db containers: `docker-compose up`
+6. Once up and running visit any of the endpoint urls in the ***ENDPOINTS*** section.
 
-## Projects
 
-#### Get all projects
-curl -X GET 'http://localhost:5000/api/projects
+### AVAILABLE ENDPOINTS:
+These are the current available endpoints for this service:
 
-### Get project by id
-curl -X GET 'http://localhost:5000/api/project?id=3
+#### PROJECT ENDPOINTS
 
-### Post new Project
+***GET all projects***
+`curl -X GET 'http://localhost:5000/api/projects`
+
+***GET project by ID***
+`curl -X GET 'http://localhost:5000/api/project?id=3`
+
+***POST new Project**
+```
 curl --header "Content-Type: application/json" \
     --request POST \
     --data '{"name":"This is a test project issue", "description":"This is a description"}' \
-    http://localhost:5000/api/project
+    http://localhost:5000/api/project`
+```
 
-## Issues
+***DELETE new Project**
+- TODO
 
-#### Get all Issues:
-curl -X GET 'http://localhost:5000/api/issues
+## ISSUE ENDPOINTS
 
-#### Search for Issues:
+***GET all Issues***
+`curl -X GET 'http://localhost:5000/api/issues`
 
-##### By like name
-curl -X GET 'http://localhost:5000/api/search/issues?like_name=D'
+***SEARCH for Issues***
+```
+curl -X GET 'http://localhost:5000/api/search/issues?like_name=D'`
 curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1'
 curl -X GET 'http://localhost:5000/api/search/issues?like_name=D&priority_level=1&status=OPEN'
+```
 
-#### Get Issue by id:
-curl -X GET 'http://localhost:5000/api/issue?id=3'
+***GET Issue by ID***
+`curl -X GET 'http://localhost:5000/api/issue?id=3'`
 
-#### Post new issue:
+***POST new issue***
+```
 curl --header "Content-Type: application/json" \
     --request POST \
     --data '{"project_id":1,"name":"This is a test insert issue", "description":"This is a description", "priority_level": 2, "assigned_to_user_id": 1, "created_by_user_id": 1, "status": "OPEN"}' \
     http://localhost:5000/api/issue
+```
 
-#### Delete issue by id
-curl -X DELETE http://localhost:5000/api/issue?id=9
+***Delete issue by ID***
+`curl -X DELETE http://localhost:5000/api/issue?id=9`
 
-## Users
+## USER ENDPOINTS
 
-#### Get all users
-curl -X GET 'http://localhost:5000/api/users'
+***GET all users***
+`curl -X GET 'http://localhost:5000/api/users'`
 
-#### Get user by id
-curl -X GET 'http://localhost:5000/api/user?id=1'
+***GET user by ID***
+`curl -X GET 'http://localhost:5000/api/user?id=1'`
 
-#### Post a new user:
+***POST a new user***
+```
 curl --header "Content-Type: application/json" \
     --request POST \
     --data '{"username":"tester", "first_name":"Jason", "last_name":"Alexander", "email": "jasonralexander@gmail.com"}' \
     http://localhost:5000/api/user
+```
 
 
 

@@ -19,6 +19,6 @@ if __name__ == '__main__':
         app = init_app(DevConfig)
 
     try:
-        app.run()
+        app.run(host='0.0.0.0')
     except AppFailureException:
         logging.error(APP_FAILURE)
