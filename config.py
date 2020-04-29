@@ -32,7 +32,7 @@ class DevConfig(Config):
 
 
 class UnitTestConfig(object):
-    # TODO : Create a test database
+    # TODO : Create a in-memory test database
     def __init__(self, app):
         self.app = app
         self.app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
