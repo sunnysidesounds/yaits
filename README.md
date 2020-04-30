@@ -7,7 +7,7 @@
 This is a basic, but easily extendable issue tracking service with projects, issues and users. Users can creates projects
 with issues and assign these issues to each other.
 
-### Trade-offs/Compromises, Scale, or Performance Issue Considerations:
+### Trade-offs/Compromises, Scale, or Performance Issue Considerations
 - For high-performance web service using Flask framework might not be the best web framework to service millions of user, like
 JIRA. Languages like Java and Frameworks like Spring, Play or any J2EE application/service framework would probably pretty be suited
 for specific applications like this. But there has been sites like Obama's 2012 election site and Twilio are both built on this framework and
@@ -16,7 +16,6 @@ have handle requests at large scale.
 of the application.
 
 ### Ideas To Improve/Extend Service
-
 1. TODO: Move queries to ***SQLAlchemy*** ORM
     - Right now some of the queries aren't fully utilizing the ***SQLAlchemy*** ORM models due to the table joins
 2. TODO: Validate and make sure the query strings being built are parameterized properly.
