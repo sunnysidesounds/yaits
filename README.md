@@ -5,14 +5,18 @@
 
 ### Design Description
 This is a basic, but easily extendable issue tracking service with projects, issues and users. Users can creates projects
-with issues and assign these issues to each other. 
+with issues and assign these issues to each other.
 
 ### Trade-offs/Compromises, Scale, or Performance Issue Considerations:
-- TODO
+- For high-performance web service using Flask framework might not be the best web framework to service millions of user, like
+JIRA. Languages like Java and Frameworks like Spring, Play or any J2EE application/service framework would probably pretty be suited
+for specific applications like this. But there has been sites like Obama's 2012 election site and Twilio are both built on this framework and
+have handle requests at large scale.
+- Using any cloud service, such as AWS or GCP using a load balancer and containerized app clusters should be able to scale and handle each part
+of the application.
 
 ### Ideas To Improve/Extend Service
 
-#### Application Improvements:
 1. TODO: Move queries to ***SQLAlchemy*** ORM
     - Right now some of the queries aren't fully utilizing the ***SQLAlchemy*** ORM models due to the table joins
 2. TODO: Validate and make sure the query strings being built are parameterized properly.
@@ -21,17 +25,64 @@ with issues and assign these issues to each other.
     - We have integration / endpoint tests, we should write unit tests to test utility functions..etc
 4. TODO: Add an in-memory database for integration / endpoint tests.
     - Right now we are test CRUD functionality on a MySQL database.
-
-#### Feature Additions:
-- TODO
+5. TODO: Add in authentication.
+    - As there are user endpoints to create users. There no validation, authentication. This should be added.
 
 ### Technical Details
 - Flask Python Web Service: https://flask.palletsprojects.com/en/1.1.x/
 - MYSQL 8.0.19
 - Python 3.8
 
+### Database Schemas
 
-## SETUP
+***Projects Schema***
+- Additional columns that should be added: __created_by_user_id__
+```
+CREATE TABLE IF NOT EXISTS projects (
+    `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NULL,
+    `description` varchar(500) NULL,
+    `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+```
+
+***Issues Schema***
+- Foreign key constraint ids between project (project_id) and user (created_by_user_id) tables.
+```
+CREATE TABLE IF NOT EXISTS issues (
+   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+   `project_id` int(10) UNSIGNED NOT NULL,
+   `name` varchar(255) NULL,
+   `description` varchar(500) NULL,
+   `priority_level` int(10) UNSIGNED NOT NULL DEFAULT '1',
+   `assigned_to_user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+   `created_by_user_id` int(10) UNSIGNED NOT NULL,
+   `status` ENUM('OPEN', 'INPROGRESS', 'REOPENED', 'RESOLVED', 'CLOSED') NOT NULL,
+   `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY (id),
+   KEY `project_id` (`project_id`),
+   KEY `index_name` (`name`(255)),
+   CONSTRAINT `project_id_constraint_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
+   CONSTRAINT `created_by_user_id_constraint_1` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+```
+
+***Users Schema***
+```
+CREATE TABLE IF NOT EXISTS users (
+     `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+     `username` varchar(125) NULL,
+     `first_name` varchar(125) NULL,
+     `last_name` varchar(125) NULL,
+     `email` varchar(255) NULL,
+     `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+     PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+```
+
+## Setup
 To setup this service, please follow these steps.
 
 ##### Setup with Docker
@@ -66,7 +117,7 @@ To setup this service, please follow these steps.
 10. Once up and running visit any of the endpoint urls in the ***ENDPOINTS*** section.
 
 
-## AVAILABLE ENDPOINTS:
+## Available Endpoints:
 These are the current available endpoints for this service.
 
 ##### PROJECT ENDPOINTS
@@ -150,7 +201,7 @@ curl --header "Content-Type: application/json" \
     http://localhost:5000/api/user?id=1
 ```
 
-## TESTS:
+## Testing / Tests:
 
 ### Integration / Endpoint Tests:
 
