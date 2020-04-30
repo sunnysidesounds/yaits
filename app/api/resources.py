@@ -3,7 +3,6 @@ from flask_restful import Resource, reqparse
 from app.utils import response_json
 from app import constants
 from .models import ProjectModel, IssueModel, UserModel
-#from .schemas import issue_schema, issues_schema
 from .query_definitions import ISSUES_QUERY_ALL, ISSUES_QUERY_ONE, PROJECT_QUERY, USER_QUERY
 from app.db import db
 

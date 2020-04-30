@@ -3,7 +3,29 @@
 
 ## OVERVIEW
 
-### Technical Details:
+### Design Description
+This is a basic, but easily extendable issue tracking service with projects, issues and users. Users can creates projects
+with issues and assign these issues to each other. 
+
+### Trade-offs/Compromises, Scale, or Performance Issue Considerations:
+- TODO
+
+### Ideas To Improve/Extend Service
+
+#### Application Improvements:
+1. TODO: Move queries to ***SQLAlchemy*** ORM
+    - Right now some of the queries aren't fully utilizing the ***SQLAlchemy*** ORM models due to the table joins
+2. TODO: Validate and make sure the query strings being built are parameterized properly.
+    - If we switched to using the full ***SQLAlchemy*** ORM for queries this would completely go away.
+3. TODO: Add unit tests
+    - We have integration / endpoint tests, we should write unit tests to test utility functions..etc
+4. TODO: Add an in-memory database for integration / endpoint tests.
+    - Right now we are test CRUD functionality on a MySQL database.
+
+#### Feature Additions:
+- TODO
+
+### Technical Details
 - Flask Python Web Service: https://flask.palletsprojects.com/en/1.1.x/
 - MYSQL 8.0.19
 - Python 3.8
